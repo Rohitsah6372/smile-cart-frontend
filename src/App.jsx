@@ -1,5 +1,5 @@
-import { Button } from "neetoui";
+import Product from "components/Product";
 
-const App = () => <Button label="Submit" style="secondary" />;
+const App = () => <Product />;
 
 export default App;
