@@ -1,30 +1,84 @@
-import { Typography } from "neetoui";
+import { useEffect, useState } from "react";
+
+import axios from "axios";
+import { Typography, Spinner } from "neetoui";
+import { isNotNil, append } from "ramda";
 
 import Carousel from "./Carousel";
-import { IMAGE_URLS } from "./constants";
+// import { IMAGE_URLS } from "./constants";
 
-const Product = () => (
-  <div className="px-6 pb-6">
-    <div>
-      <Typography className="py-2 text-4xl font-semibold">
-        Infinix INBOOK
-      </Typography>
-      <hr className="border-2 border-black" />
-    </div>
-    <div className="mt-6 flex gap-4">
-      <div className="col-auto  w-2/5 justify-center text-center align-middle">
-        <Carousel imageUrls={IMAGE_URLS} title="Infinix Inbook" />
+const Product = () => {
+  const [product, setProduct] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchFun = async () => {
+    try {
+      const response = await axios.get(
+        `https://smile-cart-backend-staging.neetodeployapp.com/products/infinix-inbook-2`
+      );
+      // console.log("API response ", response);
+      setProduct(response.data);
+    } catch (err) {
+      console.log("Error : ", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFun();
+  }, []);
+
+  // console.log("Products ",product);
+
+  const {
+    name,
+    description,
+    mrp,
+    offer_price: offerPrice,
+    image_urls: imageUrls,
+    image_url: imageUrl,
+  } = product;
+  const totDiscount = mrp - offerPrice;
+  const discountedPercentage = ((totDiscount / mrp) * 100).toFixed(2);
+
+  if (isLoading) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center">
+        <Spinner />
       </div>
-      <div className="w-3/5 space-y-4">
-        <Typography>
-          Infinix Inbook X1 Ci3 10th 8GB 256GB 14 Win10 Grey - 1 Year Warranty.
-        </Typography>
-        <Typography>MRP: $395.97</Typography>
-        <Typography className="font-semibold">Offer price: $374.43</Typography>
-        <Typography className="font-semibold text-green-600">6% off</Typography>
+    );
+  }
+
+  return (
+    <div className="px-6 pb-6">
+      <div>
+        <Typography className="py-2 text-4xl font-semibold">{name}</Typography>
+        <hr className="border-2 border-black" />
+      </div>
+      <div className="mt-16 flex gap-4">
+        <div className="col-auto  w-2/5 justify-center text-center align-middle">
+          <div className="flex justify-center gap-16">
+            {isNotNil(imageUrls) ? (
+              <Carousel imageUrls={append(imageUrl, imageUrls)} title={name} />
+            ) : (
+              <img alt="Laptop image" className="w-48" src={imageUrl} />
+            )}
+          </div>
+        </div>
+        <div className="w-3/5 space-y-4">
+          <Typography>{description}</Typography>
+          <Typography>MRP: ${mrp}</Typography>
+          <Typography className="font-semibold">
+            Offer price: ${offerPrice}
+          </Typography>
+          <Typography className="font-semibold text-green-600">
+            {discountedPercentage}% off
+          </Typography>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Product;
