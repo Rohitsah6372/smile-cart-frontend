@@ -13,7 +13,8 @@ const Product = () => {
   const fetchFun = async () => {
     try {
       const response = await productApi.show();
-      setProduct(response.data);
+      // console.log("Product Page ", response.name);
+      setProduct(response);
     } catch (err) {
       console.log("Error : ", err);
     } finally {
@@ -25,18 +26,13 @@ const Product = () => {
     fetchFun();
   }, []);
 
-  // console.log("Products ",product);
+  console.log("Products ", product);
 
-  const {
-    name,
-    description,
-    mrp,
-    offer_price: offerPrice,
-    image_urls: imageUrls,
-    image_url: imageUrl,
-  } = product;
+  const { name, description, mrp, offerPrice, imageUrls, imageUrl } = product;
   const totDiscount = mrp - offerPrice;
   const discountedPercentage = ((totDiscount / mrp) * 100).toFixed(2);
+
+  console.log(name, description, mrp, offerPrice, imageUrls, imageUrl);
 
   if (isLoading) {
     return (
