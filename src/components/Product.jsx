@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 
-import axios from "axios";
+import productApi from "apis/products";
 import { Typography, Spinner } from "neetoui";
 import { isNotNil, append } from "ramda";
 
 import Carousel from "./Carousel";
-// import { IMAGE_URLS } from "./constants";
 
 const Product = () => {
   const [product, setProduct] = useState({});
@@ -13,10 +12,7 @@ const Product = () => {
 
   const fetchFun = async () => {
     try {
-      const response = await axios.get(
-        `https://smile-cart-backend-staging.neetodeployapp.com/products/infinix-inbook-2`
-      );
-      // console.log("API response ", response);
+      const response = await productApi.show();
       setProduct(response.data);
     } catch (err) {
       console.log("Error : ", err);
