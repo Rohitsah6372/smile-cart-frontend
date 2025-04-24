@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 
 import productApi from "apis/products";
-import Header from "components/commons/Header";
-import { Spinner } from "neetoui";
+import { Header, PageLoader } from "components/commons";
 
 import ProductListItem from "./ProductListItem";
 
@@ -28,11 +27,7 @@ const ProductList = () => {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="flex h-screen w-screen items-center justify-center">
-        <Spinner />;
-      </div>
-    );
+    return <PageLoader />;
   }
 
   return (
@@ -41,9 +36,6 @@ const ProductList = () => {
         <Header shouldShowBackButton={false} title="Smile Cart" />
         <hr className="neeto-ui-bg-black h-1" />
       </div>
-      {/* <Typography className="mx-auto" style="h2">
-        Home
-      </Typography> */}
       <div className="grid grid-cols-2 justify-items-center gap-y-8 p-4 md:grid-cols-3 lg:grid-cols-4">
         {products.map(product => (
           <ProductListItem key={product.slug} {...product} />

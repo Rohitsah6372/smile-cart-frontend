@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
 
 import productApi from "apis/products";
-import Header from "components/commons/Header";
-import PageNotFound from "components/PageNotFound";
-import { Spinner, Typography } from "neetoui";
+import { Header, PageLoader, PageNotFound } from "components/commons";
+import { Typography } from "neetoui";
 import { append, isNotNil } from "ramda";
-import {
-  // useHistory,
-  useParams,
-} from "react-router-dom/cjs/react-router-dom.min";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 import Carousel from "./Carousel";
 
@@ -50,20 +46,16 @@ const Product = () => {
 
   if (isLoading) {
     return (
-      <div className=" flex h-screen w-full items-center justify-center">
-        <Spinner />
-      </div>
+      // <div className=" flex h-screen w-full items-center justify-center">
+      //   <Spinner />
+      // </div>
+      <PageLoader />
     );
   }
 
   return (
     <div className="px-6 pb-6">
       <div className="grid">
-        {/* <LeftArrow
-          className="hover:neeto-ui-bg-gray-400 neeto-ui-rounded-full mr-6 mt-4 cursor-pointer"
-          onClick={history.goBack}
-        />
-        <Typography className="py-2 text-4xl font-semibold">{name}</Typography> */}
         <Header title={name} />
         <hr className="neeto-ui-border-black neeto-ui-bg-black col-span-2 h-1 w-full" />
       </div>

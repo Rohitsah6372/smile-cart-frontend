@@ -1,5 +1,5 @@
 // import Product from "components/Product";
-import PageNotFound from "components/PageNotFound";
+import { PageNotFound } from "components/commons";
 import Product from "components/Product";
 import ProductList from "components/ProductList";
 import { Route, Switch } from "react-router-dom";
