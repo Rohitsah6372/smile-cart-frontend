@@ -1,14 +1,14 @@
+import { useContext } from "react";
+
 import { Left } from "neetoicons";
 import { Button, Typography } from "neetoui";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import CartItemsContext from "src/contexts/CartItemsContext";
 
-const Header = ({
-  title,
-  shouldShowBackButton = true,
-  actionBlock,
-  cartItemCount,
-}) => {
+const Header = ({ title, shouldShowBackButton = true, actionBlock }) => {
+  const [carItems] = useContext(CartItemsContext);
+  const cartItemCount = carItems.length;
   const history = useHistory();
 
   return (
