@@ -1,12 +1,18 @@
 import { Left } from "neetoicons";
 import { Button, Typography } from "neetoui";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-const Header = ({ title, shouldShowBackButton = true, actionBlock }) => {
+const Header = ({
+  title,
+  shouldShowBackButton = true,
+  actionBlock,
+  cartItemCount,
+}) => {
   const history = useHistory();
 
   return (
-    <div className="m-2 flex items-center gap-3">
+    <div className="m-2 flex items-center justify-between gap-3">
       {shouldShowBackButton && (
         <Button
           icon={Left}
@@ -17,7 +23,19 @@ const Header = ({ title, shouldShowBackButton = true, actionBlock }) => {
       <Typography className="ml-4 text-5xl font-medium" style="h3">
         {title}
       </Typography>
-      <div className="flex items-end space-x-4">{actionBlock}</div>
+      <div className="flex items-end space-x-4">
+        {actionBlock}
+        <div className="carticon self-end">
+          <div className="flex flex-col">
+            {cartItemCount > 0 && (
+              <span className="neeto-ui-border-black neeto-ui-rounded-full min-w-fit flex h-5 w-5 items-center self-end border p-1">
+                {cartItemCount}
+              </span>
+            )}
+            <AiOutlineShoppingCart className="h-8 w-8 " />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

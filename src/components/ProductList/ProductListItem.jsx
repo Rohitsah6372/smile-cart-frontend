@@ -1,9 +1,17 @@
+import AddToCart from "components/AddToCart";
 import { Typography } from "neetoui";
 import { Link } from "react-router-dom";
 import routes from "routes";
 import { buildUrl } from "utils/url";
 
-const ProductListItem = ({ imageUrl, name, offerPrice, slug }) => {
+const ProductListItem = ({
+  imageUrl,
+  name,
+  offerPrice,
+  isInCart,
+  toggleIsInCart,
+  slug,
+}) => {
   console.log(imageUrl);
 
   return (
@@ -14,6 +22,7 @@ const ProductListItem = ({ imageUrl, name, offerPrice, slug }) => {
       <img alt="" className="h-40 w-40" src={imageUrl} />
       <Typography className="text-center">{name}</Typography>
       <Typography>${offerPrice}</Typography>
+      <AddToCart {...{ isInCart, toggleIsInCart }} />
     </Link>
   );
 };
