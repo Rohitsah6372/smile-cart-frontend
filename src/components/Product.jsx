@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 
 import productApi from "apis/products";
-import { Typography, Spinner } from "neetoui";
-import { isNotNil, append } from "ramda";
+import { Spinner, Typography } from "neetoui";
+import { append, isNotNil } from "ramda";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 import Carousel from "./Carousel";
 
 const Product = () => {
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const { slug } = useParams();
 
-  const fetchFun = async () => {
+  const fetchProduct = async () => {
     try {
-      const response = await productApi.show();
+      const response = await productApi.show(slug);
       // console.log("Product Page ", response.name);
       setProduct(response);
     } catch (err) {
@@ -23,7 +25,7 @@ const Product = () => {
   };
 
   useEffect(() => {
-    fetchFun();
+    fetchProduct();
   }, []);
 
   console.log("Products ", product);
@@ -36,7 +38,7 @@ const Product = () => {
 
   if (isLoading) {
     return (
-      <div className="flex h-screen w-full items-center justify-center">
+      <div className=" flex h-screen w-full items-center justify-center">
         <Spinner />
       </div>
     );
