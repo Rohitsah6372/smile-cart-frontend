@@ -1,14 +1,12 @@
-import { useContext } from "react";
-
 import { Left } from "neetoicons";
 import { Button, Typography } from "neetoui";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import CartItemsContext from "src/contexts/CartItemsContext";
+import useCartItemsStore from "stores/useCartItemsStore";
 
 const Header = ({ title, shouldShowBackButton = true, actionBlock }) => {
-  const [carItems] = useContext(CartItemsContext);
-  const cartItemCount = carItems.length;
+  const { cartItems } = useCartItemsStore();
+  const cartItemsCount = cartItems.length;
   const history = useHistory();
 
   return (
@@ -27,9 +25,9 @@ const Header = ({ title, shouldShowBackButton = true, actionBlock }) => {
         {actionBlock}
         <div className="carticon self-end">
           <div className="flex flex-col">
-            {cartItemCount > 0 && (
+            {cartItemsCount > 0 && (
               <span className="neeto-ui-border-black neeto-ui-rounded-full min-w-fit flex h-5 w-5 items-center self-end border p-1">
-                {cartItemCount}
+                {cartItemsCount}
               </span>
             )}
             <AiOutlineShoppingCart className="h-8 w-8 " />
