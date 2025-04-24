@@ -2,26 +2,22 @@
 import { PageNotFound } from "components/commons";
 import Product from "components/Product";
 import ProductList from "components/ProductList";
-import { Route, Switch } from "react-router-dom";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { Redirect, Route, Switch } from "react-router-dom";
 
-const App = () => (
-  <>
-    {/* <div className="flex-col space-x-2">
-      <NavLink exact activeClassName="underline font-bold" to="/">
-        Home
-      </NavLink>
-      <NavLink activeClassName="underline font-bold" to="/product">
-        Product
-      </NavLink>
-    </div> */}
+import routes from "./routes";
+
+const App = () => {
+  const { index, show } = routes.products;
+  console.log("ApIs : ", index, show);
+
+  return (
     <Switch>
-      <Route exact component={ProductList} path="/products" />
-      <Route exact component={Product} path="/products/:slug" />
-      <Redirect exact from="/" to="/products" />
+      <Route exact component={ProductList} path={index} />
+      <Route exact component={Product} path={show} />
+      <Redirect exact from={routes.root} to={index} />
       <Route component={PageNotFound} path="*" />
     </Switch>
-  </>
-);
+  );
+};
 
 export default App;
