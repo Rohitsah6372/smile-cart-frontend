@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
 
 import productApi from "apis/products";
+import { LeftArrow } from "neetoicons";
 import { Spinner, Typography } from "neetoui";
 import { append, isNotNil } from "ramda";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  useHistory,
+  useParams,
+} from "react-router-dom/cjs/react-router-dom.min";
 
 import Carousel from "./Carousel";
+import PageNotFound from "./PageNotFound";
 
 const Product = () => {
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const { slug } = useParams();
+  const [isError, setIsError] = useState(false);
+  const history = useHistory();
 
   const fetchProduct = async () => {
     try {
@@ -19,6 +26,7 @@ const Product = () => {
       setProduct(response);
     } catch (err) {
       console.log("Error : ", err);
+      setIsError(true);
     } finally {
       setIsLoading(false);
     }
@@ -27,6 +35,10 @@ const Product = () => {
   useEffect(() => {
     fetchProduct();
   }, []);
+
+  if (isError) {
+    return <PageNotFound />;
+  }
 
   console.log("Products ", product);
 
@@ -46,9 +58,13 @@ const Product = () => {
 
   return (
     <div className="px-6 pb-6">
-      <div>
+      <div className="grid">
+        <LeftArrow
+          className="hover:neeto-ui-bg-gray-400 neeto-ui-rounded-full mr-6 mt-4 cursor-pointer"
+          onClick={history.goBack}
+        />
         <Typography className="py-2 text-4xl font-semibold">{name}</Typography>
-        <hr className="border-2 border-black" />
+        <hr className="neeto-ui-border-black neeto-ui-bg-black col-span-2 h-1 w-full" />
       </div>
       <div className="mt-16 flex gap-4">
         <div className="col-auto  w-2/5 justify-center text-center align-middle">
