@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
 
 import productApi from "apis/products";
-import { LeftArrow } from "neetoicons";
+import Header from "components/commons/Header";
+import PageNotFound from "components/PageNotFound";
 import { Spinner, Typography } from "neetoui";
 import { append, isNotNil } from "ramda";
 import {
-  useHistory,
+  // useHistory,
   useParams,
 } from "react-router-dom/cjs/react-router-dom.min";
 
 import Carousel from "./Carousel";
-import PageNotFound from "./PageNotFound";
 
 const Product = () => {
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const { slug } = useParams();
   const [isError, setIsError] = useState(false);
-  const history = useHistory();
+  // const history = useHistory();
 
   const fetchProduct = async () => {
     try {
@@ -59,11 +59,12 @@ const Product = () => {
   return (
     <div className="px-6 pb-6">
       <div className="grid">
-        <LeftArrow
+        {/* <LeftArrow
           className="hover:neeto-ui-bg-gray-400 neeto-ui-rounded-full mr-6 mt-4 cursor-pointer"
           onClick={history.goBack}
         />
-        <Typography className="py-2 text-4xl font-semibold">{name}</Typography>
+        <Typography className="py-2 text-4xl font-semibold">{name}</Typography> */}
+        <Header title={name} />
         <hr className="neeto-ui-border-black neeto-ui-bg-black col-span-2 h-1 w-full" />
       </div>
       <div className="mt-16 flex gap-4">
