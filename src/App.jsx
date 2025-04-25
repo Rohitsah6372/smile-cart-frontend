@@ -2,6 +2,7 @@
 import { useState } from "react";
 
 import Cart from "components/Cart";
+import Checkout from "components/Checkout";
 import { PageNotFound } from "components/commons";
 import Product from "components/Product";
 import ProductList from "components/ProductList";
@@ -22,6 +23,7 @@ const App = () => {
         <Route exact component={Product} path={show} />
         <Redirect exact from={routes.root} to={index} />
         <Route exact component={Cart} path={routes.cart} />
+        <Route exact component={Checkout} path={routes.checkout} />
         <Route component={PageNotFound} path="*" />
       </Switch>
     </CartItemsContext.Provider>
