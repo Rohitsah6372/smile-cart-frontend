@@ -1,6 +1,7 @@
 // import Product from "components/Product";
 import { useState } from "react";
 
+import Cart from "components/Cart";
 import { PageNotFound } from "components/commons";
 import Product from "components/Product";
 import ProductList from "components/ProductList";
@@ -11,7 +12,7 @@ import routes from "./routes";
 
 const App = () => {
   const { index, show } = routes.products;
-  console.log("ApIs : ", index, show);
+  // console.log("ApIs : ", index, show);
   const [cartItems, setCartItems] = useState([]);
 
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route exact component={ProductList} path={index} />
         <Route exact component={Product} path={show} />
         <Redirect exact from={routes.root} to={index} />
+        <Route exact component={Cart} path={routes.cart} />
         <Route component={PageNotFound} path="*" />
       </Switch>
     </CartItemsContext.Provider>

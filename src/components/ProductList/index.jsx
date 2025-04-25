@@ -28,8 +28,6 @@ const ProductList = () => {
       const { products } = await productApi.fetch({
         searchTerm: debouncedSearchKey,
       });
-      // console.log(response);
-      console.log(products);
       setProducts(products);
     } catch (error) {
       console.log(`Error in fetching from ProductList.jsx : `, error);
