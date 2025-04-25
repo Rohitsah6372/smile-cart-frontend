@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import productApi from "apis/products";
 import { Header, PageLoader, PageNotFound } from "components/commons";
+import AddToCart from "components/commons/AddToCart";
 import { Typography } from "neetoui";
 import { append, isNotNil } from "ramda";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
@@ -38,19 +39,22 @@ const Product = () => {
 
   console.log("Products ", product);
 
-  const { name, description, mrp, offerPrice, imageUrls, imageUrl } = product;
+  const {
+    name,
+    description,
+    mrp,
+    offerPrice,
+    imageUrls,
+    imageUrl,
+    availableQuantity,
+  } = product;
   const totDiscount = mrp - offerPrice;
   const discountedPercentage = ((totDiscount / mrp) * 100).toFixed(2);
 
   console.log(name, description, mrp, offerPrice, imageUrls, imageUrl);
 
   if (isLoading) {
-    return (
-      // <div className=" flex h-screen w-full items-center justify-center">
-      //   <Spinner />
-      // </div>
-      <PageLoader />
-    );
+    return <PageLoader />;
   }
 
   return (
@@ -78,6 +82,7 @@ const Product = () => {
           <Typography className="font-semibold text-green-600">
             {discountedPercentage}% off
           </Typography>
+          <AddToCart {...{ availableQuantity, slug }} />
         </div>
       </div>
     </div>

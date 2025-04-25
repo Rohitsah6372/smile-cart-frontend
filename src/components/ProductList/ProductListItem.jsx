@@ -4,7 +4,13 @@ import { Link } from "react-router-dom";
 import routes from "routes";
 import { buildUrl } from "utils/url";
 
-const ProductListItem = ({ imageUrl, name, offerPrice, slug }) => {
+const ProductListItem = ({
+  imageUrl,
+  name,
+  offerPrice,
+  slug,
+  availableQuantity,
+}) => {
   console.log(imageUrl);
 
   return (
@@ -15,7 +21,7 @@ const ProductListItem = ({ imageUrl, name, offerPrice, slug }) => {
       <img alt="" className="h-40 w-40" src={imageUrl} />
       <Typography className="text-center">{name}</Typography>
       <Typography>${offerPrice}</Typography>
-      <AddToCart {...{ slug }} />
+      <AddToCart {...{ availableQuantity, slug }} />
     </Link>
   );
 };

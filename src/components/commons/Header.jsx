@@ -1,13 +1,15 @@
 import { Left } from "neetoicons";
 import { Button, Typography } from "neetoui";
+import { keys } from "ramda";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import useCartItemsStore from "stores/useCartItemsStore";
 
 const Header = ({ title, shouldShowBackButton = true, actionBlock }) => {
-  const { cartItems } = useCartItemsStore();
-  const cartItemsCount = cartItems.length;
   const history = useHistory();
+  const cartItemsCount = useCartItemsStore(
+    store => keys(store.cartItems).length
+  );
 
   return (
     <div className="m-2 flex items-center justify-between gap-3">
