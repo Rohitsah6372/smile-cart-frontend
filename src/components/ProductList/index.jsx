@@ -4,9 +4,10 @@ import { Header, PageLoader } from "components/commons";
 import { useFetchProducts } from "hooks/reactQuery/useProductsApi";
 import useDebounce from "hooks/useDebounce";
 import { Search } from "neetoicons";
-import { Input, NoData } from "neetoui";
+import { Input, NoData, Pagination } from "neetoui";
 import { isEmpty, without } from "ramda";
 
+import { DEFAULT_PAGE_INDEX, DEFAULT_PAGE_SIZE } from "./constants";
 import ProductListItem from "./ProductListItem";
 
 const ProductList = () => {
@@ -15,6 +16,8 @@ const ProductList = () => {
   const [searchKey, setSearchKey] = useState("");
   const [cartItems, setCartItems] = useState([]);
   const debouncedSearchKey = useDebounce(searchKey);
+
+  const [currentPage, setCurrentPage] = useState(DEFAULT_PAGE_INDEX);
 
   const toggleIsInCart = slug =>
     setCartItems(prevCartItems =>
@@ -40,9 +43,14 @@ const ProductList = () => {
   //   fecthProducts();
   // }, [debouncedSearchKey]);
 
-  const { data: { products = [] } = {}, isLoading } = useFetchProducts({
+  const productsParams = {
     searchTerm: debouncedSearchKey,
-  });
+    page: currentPage,
+    pageSize: DEFAULT_PAGE_SIZE,
+  };
+
+  const { data: { products = [], totalProductsCount } = {}, isLoading } =
+    useFetchProducts(productsParams);
 
   if (isLoading) {
     return <PageLoader />;
@@ -64,7 +72,10 @@ const ProductList = () => {
                   placeholder="Search Products"
                   prefic={<Search />}
                   type="Search"
-                  onChange={event => setSearchKey(event.target.value)}
+                  onChange={event => {
+                    setSearchKey(event.target.value);
+                    setCurrentPage(DEFAULT_PAGE_INDEX);
+                  }}
                 />
               }
             />
@@ -79,6 +90,12 @@ const ProductList = () => {
                 toggleIsInCart={() => toggleIsInCart(product.slug)}
               />
             ))}
+            <Pagination
+              count={totalProductsCount}
+              navigate={page => setCurrentPage(page)}
+              pageNo={currentPage || DEFAULT_PAGE_INDEX}
+              pageSize={DEFAULT_PAGE_SIZE}
+            />
           </div>
         </>
       )}
