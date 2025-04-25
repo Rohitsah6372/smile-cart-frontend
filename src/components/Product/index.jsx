@@ -1,39 +1,38 @@
-import { useEffect, useState } from "react";
-
-import productApi from "apis/products";
 import { Header, PageLoader, PageNotFound } from "components/commons";
 import AddToCart from "components/commons/AddToCart";
+import { useShowProduct } from "hooks/reactQuery/useProductsApi";
 import useSelectedQuantity from "hooks/useSelectedQuantity";
 import { Button, Typography } from "neetoui";
-import { append, isNotNil } from "ramda";
+import { isNotNil } from "ramda";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import routes from "routes";
 
 import Carousel from "./Carousel";
 
 const Product = () => {
-  const [product, setProduct] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
+  // const [product, setProduct] = useState({});
+  // const [isLoading, setIsLoading] = useState(true);
   const { slug } = useParams();
-  const [isError, setIsError] = useState(false);
+  // const [isError, setIsError] = useState(false);
   const { selectedQuantity, setSelectedQuantity } = useSelectedQuantity(slug);
 
-  const fetchProduct = async () => {
-    try {
-      const response = await productApi.show(slug);
-      // console.log("Product Page ", response.name);
-      setProduct(response);
-    } catch (err) {
-      console.log("Error : ", err);
-      setIsError(true);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // const fetchProduct = async () => {
+  //   try {
+  //     const response = await productApi.show(slug);
+  //     // console.log("Product Page ", response.name);
+  //     // setProduct(response);
+  //   } catch (err) {
+  //     console.log("Error : ", err);
+  //     // setIsError(true);
+  //   } finally {
+  //     // setIsLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchProduct();
-  }, []);
+  // useEffect(() => {
+  //   fetchProduct();
+  // }, []);
+  const { data: product = {}, isLoading, isError } = useShowProduct(slug);
 
   if (isError) {
     return <PageNotFound />;
@@ -69,7 +68,7 @@ const Product = () => {
         <div className="col-auto  w-2/5 justify-center text-center align-middle">
           <div className="flex justify-center gap-16">
             {isNotNil(imageUrls) ? (
-              <Carousel imageUrls={append(imageUrl, imageUrls)} title={name} />
+              <Carousel />
             ) : (
               <img alt="Laptop image" className="w-48" src={imageUrl} />
             )}

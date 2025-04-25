@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-import productApi from "apis/products";
 import { Header, PageLoader } from "components/commons";
+import { useFetchProducts } from "hooks/reactQuery/useProductsApi";
 import useDebounce from "hooks/useDebounce";
 import { Search } from "neetoicons";
 import { Input, NoData } from "neetoui";
@@ -10,8 +10,8 @@ import { isEmpty, without } from "ramda";
 import ProductListItem from "./ProductListItem";
 
 const ProductList = () => {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [products, setProducts] = useState([]);
+  // const [isLoading, setIsLoading] = useState(true);
   const [searchKey, setSearchKey] = useState("");
   const [cartItems, setCartItems] = useState([]);
   const debouncedSearchKey = useDebounce(searchKey);
@@ -23,22 +23,26 @@ const ProductList = () => {
         : [slug, ...cartItems]
     );
 
-  const fecthProducts = async () => {
-    try {
-      const { products } = await productApi.fetch({
-        searchTerm: debouncedSearchKey,
-      });
-      setProducts(products);
-    } catch (error) {
-      console.log(`Error in fetching from ProductList.jsx : `, error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  // const fecthProducts = async () => {
+  //   try {
+  //     const { products } = await productApi.fetch({
+  //       searchTerm: debouncedSearchKey,
+  //     });
+  //     setProducts(products);
+  //   } catch (error) {
+  //     console.log(`Error in fetching from ProductList.jsx : `, error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    fecthProducts();
-  }, [debouncedSearchKey]);
+  // useEffect(() => {
+  //   fecthProducts();
+  // }, [debouncedSearchKey]);
+
+  const { data: { products = [] } = {}, isLoading } = useFetchProducts({
+    searchTerm: debouncedSearchKey,
+  });
 
   if (isLoading) {
     return <PageLoader />;
